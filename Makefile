@@ -1,9 +1,10 @@
 .PHONY: configure build run
 
 TAG:="testing"
+RELEASE_DATE=$(shell echo date +%Y%m%d)
 
 compress:
-	tar -czf release.tar.gz ./linux/amd64 ./linux/arm64 ./linux/armhf
+	tar -czf skywire-release-${RELEASE_DATE}.tar.gz ./linux/amd64 ./linux/arm64 ./linux/armhf
 
 configure: configure-local-ssh configure-docker configure-directory
 

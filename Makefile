@@ -1,15 +1,22 @@
 .PHONY: configure build run
 
+# variables
 TAG:="testing"
 RELEASE_DATE=$(shell echo date +%Y%m%d)
+HELP_CYAN  := $(shell tput -Txterm setaf 6)
+HELP_RESET  := $(shell tput -Txterm sgr0)
+HELP_TARGET_MAX_CHAR_NUM := 20
 
 compress:
 	tar -czf skywire-release-${RELEASE_DATE}.tar.gz ./linux/amd64 ./linux/arm64 ./linux/armhf
 
-configure: configure-local-ssh configure-docker configure-directory
+## configure local directories, docker, and ssh-keys
+configure:  configure-local-ssh configure-docker configure-directory
 
+## builds multi-platform docker images
 build: build-base-image
 
+## create sysroot from multiple docker-images and compress the result
 run: run-base-images rsync-base-images compress
 
 configure-docker:
@@ -47,5 +54,21 @@ stop-base-images:
 inspect-base-image:
 	docker buildx imagetools inspect skycoin/sysroot-base:latest
 
+## upload the sysroot to the bucket
 upload:
 	echo "TODO: please upload to bucket here"
+
+
+## show this help message
+help:
+	@echo ''
+	@awk '/^[a-zA-Z\-\_0-9]+:/ { \
+		helpMessage = match(lastLine, /^## (.*)/); \
+		if (helpMessage) { \
+			helpCommand = substr($$1, 0, index($$1, ":")-1); \
+			helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
+			printf "${HELP_CYAN}%-$(HELP_TARGET_MAX_CHAR_NUM)s${HELP_RESET} %s\n", helpCommand, helpMessage; \
+		} \
+	} \
+	{ lastLine = $$0 }' $(MAKEFILE_LIST)
+	@echo ''

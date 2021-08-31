@@ -1,0 +1,14 @@
+Include /etc/ssh/sshd.config.d/*.conf
+
+Port 22
+
+PermitRootLogin yes
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+
+PubKeyAuthentication yes
+PasswordAuthentication no
+PermitEmptyPasswords no
+
+AcceptEnv LANG LC_*

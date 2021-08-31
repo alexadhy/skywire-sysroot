@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+rsync -a -z -m -d -h -e "ssh -o 'StrictHostKeyChecking no' -p $3" \
+  --keep-dirlinks --info=progress2 --delete \
+  --prune-empty-dirs --sparse --links --copy-unsafe-links \
+  --exclude '/boot*' \
+  --exclude /usr/lib/systemd \
+  --exclude '*.pl' --exclude '*.pm' \
+  --exclude /bin --exclude /boot --exclude /dev --exclude /etc \
+  --exclude /home --exclude /lib/dhcpd --exclude /lib/firmware \
+  --exclude /lib/hdparm --exclude /lib/ifupdown --exclude /lib/modules \
+  --exclude /lib/modprobe.d --exclude /lib/modules-load.d \
+  --exclude /lib/resolvconf --exclude /lib/startpar --exclude /lib/systemd \
+  --exclude /lib/terminfo --exclude /lib/udev --exclude /lib/xtables \
+  --exclude /lib/ssl/private --exclude /lost+found --exclude /media \
+  --exclude /mnt --exclude /proc --exclude /root --exclude /run \
+  --exclude /sbin --exclude /srv --exclude /sys --exclude /tmp \
+  --exclude /usr/bin --exclude /usr/games --exclude /usr/sbin \
+  --exclude /usr/src --exclude /usr/local/bin \
+  --exclude /usr/local/etc --exclude /usr/local/games \
+  --exclude /usr/local/man --exclude /usr/local/sbin \
+  --exclude /usr/local/share --exclude /usr/local/src \
+  --exclude /usr/lib/ssl/private --exclude /var --exclude /snap \
+  --exclude /usr/lib/mime --exclude /usr/lib/dpkg --exclude /usr/lib/apt \
+  --exclude /usr/lib/dbus-1.0 --exclude /usr/lib/dconf --exclude /usr/lib/glib-networking \
+  --exclude /usr/lib/os-release --exclude /usr/lib/sysusers.d --exclude /usr/lib/tmpfiles.d \
+  --exclude /usr/lib/environment.d \
+  --exclude /usr/lib/kernel --exclude /usr/lib/openssh \
+  --exclude 'entrypoint.sh' --exclude /usr/share/perl \
+  --exclude '/usr/share/lib*' --exclude '/usr/share/pam*' \
+  --exclude '/usr/share/a*' --exclude '/usr/share/b*' \
+  --exclude '/usr/share/c*' --exclude '/usr/share/d*' \
+  --exclude '/usr/share/e*' --exclude '/usr/share/f*' \
+  --exclude '/usr/share/g*' --exclude '/usr/share/i*' \
+  --exclude '/usr/share/G*' --exclude '/usr/share/r*' \
+  --exclude '/usr/share/s*' --exclude '/usr/share/t*' \
+  --exclude '/usr/share/l*' --exclude '/usr/share/m*' \
+  --exclude /usr/share/X11 --exclude /usr/share/wayland \
+  --exclude /usr/share/vala --exclude /usr/share/xml \
+  --exclude /usr/share/zoneinfo --exclude /usr/share/zsh \
+  --exclude '/usr/share/o*' --exclude '/usr/share/k*' \
+  --exclude /usr/share/pixmaps --exclude /usr/share/polkit-1 \
+  --exclude '/usr/share/wayland*' \
+  --exclude /usr/lib/sftp-server \
+  --exclude '*python*' --exclude '*docker*' --exclude '.dockerenv' \
+  --include /usr/share/pkgconfig \
+  --include '*.a' --include '*.so' --include '*.so.*' \
+  --include '*.h' --include '*.hh' --include '*.hpp' \
+  --include '*.hxx' --include '*.pc' --include /lib \
+  --include /lib32 --include /lib64 --include /libx32 \
+  "$1":/ "$2"

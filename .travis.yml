@@ -1,0 +1,33 @@
+sudo: required
+language: go
+go:
+  # - "1.16.x" At minimum the code should run make check on the latest two go versions in the default linux environment provided by Travis.
+  - "1.16.x"
+
+dist: xenial
+
+services:
+  - docker
+
+matrix:
+  include:
+    - os: linux
+
+install:
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+
+script:
+  - make configure
+
+deploy:
+  - provider: script
+    script: make TAG=latest build && make TAG=latest run && make TAG=latest upload
+    on:
+      branch: main
+      condition: $TRAVIS_PULL_REQUEST = false
+  - provider: script
+    script: make TAG=testing build && make TAG=testing run && make TAG=testing upload
+    on:
+      tags: true
+      condition: $TRAVIS_PULL_REQUEST = false
+

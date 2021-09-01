@@ -8,7 +8,7 @@ HELP_RESET  := $(shell tput -Txterm sgr0)
 HELP_TARGET_MAX_CHAR_NUM := 20
 
 compress:
-	tar -czf skywire-release-${RELEASE_DATE}.tar.gz ./linux/amd64 ./linux/arm64 ./linux/armhf
+	tar -czf skywire-sysroot-${TAG}_${RELEASE_DATE}.tar.gz ./linux/amd64 ./linux/arm64 ./linux/armhf
 
 ## configure local directories, docker, and ssh-keys
 configure:  configure-local-ssh configure-docker configure-directory

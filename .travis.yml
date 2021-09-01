@@ -30,17 +30,14 @@ before_install:
 install:
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
 
-script:
-  - make configure
-
 deploy:
   - provider: script
-    script: make TAG=latest build && make TAG=latest run && make TAG=latest upload
+    script: make configure && make TAG=latest build && make TAG=latest run && make TAG=latest upload
     on:
       branch: main
       condition: $TRAVIS_PULL_REQUEST = false
   - provider: script
-    script: make TAG=testing build && make TAG=testing run && make TAG=testing upload
+    script: make configure && make TAG=testing build && make TAG=testing run && make TAG=testing upload
     on:
       tags: true
       condition: $TRAVIS_PULL_REQUEST = false

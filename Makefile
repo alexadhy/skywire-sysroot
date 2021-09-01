@@ -21,7 +21,6 @@ run: run-base-images rsync-base-images compress
 
 configure-docker:
 	docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-	#docker buildx rm builder
 	docker buildx create --name builder --driver docker-container --use
 
 configure-local-ssh:

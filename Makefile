@@ -1,14 +1,14 @@
 .PHONY: configure build run
 
 # variables
-TAG:="testing"
-RELEASE_DATE=$(shell echo date +%Y%m%d)
+TAG:=latest
+RELEASE_DATE=$(shell echo `date +%Y%m%d`)
 HELP_CYAN  := $(shell tput -Txterm setaf 6)
 HELP_RESET  := $(shell tput -Txterm sgr0)
 HELP_TARGET_MAX_CHAR_NUM := 20
 
 compress:
-	tar -czf skywire-sysroot-${TAG}_${RELEASE_DATE}.tar.gz ./linux/amd64 ./linux/arm64 ./linux/armhf
+	cd ./linux && tar -czf ../skywire-sysroot-${TAG}_${RELEASE_DATE}.tar.gz ./amd64 ./arm64 ./armhf
 
 ## configure local directories, docker, and ssh-keys
 configure:  configure-local-ssh configure-docker configure-directory
@@ -28,7 +28,9 @@ configure-local-ssh:
 	cat ~/.ssh/id_rsa.pub > ./authorized_keys
 
 configure-directory:
-	mkdir -p linux/{armhf,arm64,amd64}
+	mkdir -p linux/armhf
+	mkdir -p linux/arm64
+	mkdir -p linux/amd64
 
 build-base-image:
 	docker buildx build \

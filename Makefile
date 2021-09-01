@@ -2,7 +2,7 @@
 
 # variables
 TAG:="testing"
-RELEASE_DATE=$(shell echo date +%Y%m%d)
+RELEASE_DATE=$(shell echo `date +%Y%m%d`)
 HELP_CYAN  := $(shell tput -Txterm setaf 6)
 HELP_RESET  := $(shell tput -Txterm sgr0)
 HELP_TARGET_MAX_CHAR_NUM := 20

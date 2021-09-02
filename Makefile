@@ -11,7 +11,7 @@ compress:
 	cd ./linux && tar -czf ../skywire-sysroot-${TAG}_${RELEASE_DATE}.tar.gz ./amd64 ./arm64 ./armhf
 
 ## configure local directories, docker, and ssh-keys
-configure:  configure-local-ssh configure-docker configure-directory
+configure:  configure-local-ssh configure-docker configure-directory configure-s3cmd
 
 ## builds multi-platform docker images
 build: build-base-image
@@ -26,6 +26,9 @@ configure-docker:
 configure-local-ssh:
 	ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N ""
 	cat ~/.ssh/id_rsa.pub > ./authorized_keys
+
+configure-s3cmd:
+	./scripts/s3cmd_configure.sh
 
 configure-directory:
 	mkdir -p linux/armhf
@@ -57,8 +60,7 @@ inspect-base-image:
 
 ## upload the sysroot to the bucket
 upload:
-	echo "TODO: please upload to bucket here"
-
+	s3cmd put -P ./skywire-sysroot-${TAG}_${RELEASE_DATE}.tar.gz s3://skywire-bucket
 
 ## show this help message
 help:

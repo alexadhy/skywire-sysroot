@@ -26,6 +26,8 @@ before_install:
   - mkdir -vp ~/.docker/cli-plugins/
   - curl --silent -L "https://github.com/docker/buildx/releases/download/v0.6.3/buildx-v0.6.3.linux-amd64" > ~/.docker/cli-plugins/docker-buildx
   - chmod a+x ~/.docker/cli-plugins/docker-buildx
+  - sudo apt install -y s3cmd
+  -
 
 install:
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
